@@ -9,6 +9,9 @@ let currentSvPromptWord = '';
 const fiUrl = 'finnish_words.json';
 const svUrl = 'sv_words.json';
 
+/* ─── Abort controller for translation popup ─── */
+let translationAbortController = null;
+
 /* ─── DOM refs ─── */
 const wotdSvEl = document.getElementById('wotdSv');
 const wotdFiEl = document.getElementById('wotdFi');
@@ -23,6 +26,7 @@ const sentenceInput = document.getElementById('sentenceInput');
 const checkBtn = document.getElementById('checkBtn');
 const copySentenceBtn = document.getElementById('copySentenceBtn');
 const toast = document.getElementById('toast');
+const translationPopup = document.getElementById('translationPopup');
 
 /* ─── Load word lists ─── */
 async function loadWordLists() {
@@ -47,7 +51,69 @@ function pickRandom(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-/* ─── Translate via MyMemory API ─── */
+/* ─── Translate via MyMemory API (SV → FI) ─── */
+async function translateSvToFi(word, signal) {
+  const url =
+    `https://api.mymemory.translated.net/get?q=${encodeURIComponent(word)}&langpair=sv|fi`;
+  try {
+    const res = await fetch(url, { signal });
+    const data = await res.json();
+    if (data.responseStatus === 200) {
+      return data.responseData.translatedText;
+    }
+    return null;
+  } catch (err) {
+    if (err.name === 'AbortError') return null;
+    console.warn('Translation failed:', err);
+    return null;
+  }
+}
+
+/* ─── Show/hide translation popup ─── */
+function showTranslationPopup(targetEl, fiText) {
+  const rect = targetEl.getBoundingClientRect();
+  const top = rect.top - 10;
+  const left = rect.left + rect.width / 2;
+
+  translationPopup.textContent = fiText;
+  translationPopup.style.top = top + 'px';
+  translationPopup.style.left = left + 'px';
+  translationPopup.style.transform = 'translate(-50%, -100%)';
+  translationPopup.classList.add('visible');
+}
+
+function hideTranslationPopup() {
+  translationPopup.classList.remove('visible');
+  translationPopup.textContent = '';
+}
+
+/* ─── Handle click on blue highlighted word ─── */
+async function handleHighlightClick(e) {
+  const word = e.target.textContent.trim();
+  if (!word) return;
+
+  // Cancel any in-flight translation
+  if (translationAbortController) {
+    translationAbortController.abort();
+  }
+  translationAbortController = new AbortController();
+
+  const fi = await translateSvToFi(word, translationAbortController.signal);
+  if (fi) {
+    showTranslationPopup(e.target, fi);
+  } else {
+    showTranslationPopup(e.target, '…');
+  }
+  translationAbortController = null;
+}
+
+/* ─── Dismiss popup on outside click ─── */
+document.addEventListener('click', (e) => {
+  if (translationPopup.classList.contains('visible') &&
+      !e.target.matches('.highlight-sv')) {
+    hideTranslationPopup();
+  }
+});
 async function translateFiToSv(word) {
   const url =
     `https://api.mymemory.translated.net/get?q=${encodeURIComponent(word)}&langpair=fi|sv`;
@@ -93,6 +159,7 @@ async function fetchNewWord() {
   btnIcon.classList.add('spinning');
   wotdDisplay.classList.add('loading');
   errorMsg.textContent = '';
+  sentenceInput.value = '';
 
   // pick new Finnish word
   const fi = pickRandom(finnishWords);
@@ -158,7 +225,7 @@ async function copyOnlySentence() {
     await navigator.clipboard.writeText(sentence);
     // visual feedback on the button itself
     const original = copySentenceBtn.textContent;
-    copySentenceBtn.textContent = '✓';
+    copySentenceBtn.textContent = '✓ Copied!';
     setTimeout(() => {
       copySentenceBtn.textContent = original;
     }, 2000);
@@ -189,6 +256,13 @@ function fallbackCopy(text, successMsg) {
 newWordBtn.addEventListener('click', fetchNewWord);
 checkBtn.addEventListener('click', copyCheckPrompt);
 copySentenceBtn.addEventListener('click', copyOnlySentence);
+
+// Delegate click on blue highlighted Swedish words
+document.addEventListener('click', (e) => {
+  if (e.target.matches('.highlight-sv')) {
+    handleHighlightClick(e);
+  }
+});
 
 /* ─── Init ─── */
 async function init() {

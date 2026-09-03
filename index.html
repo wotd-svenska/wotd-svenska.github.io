@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="sv">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,11 +12,12 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
   <div class="container">
     <header class="header">
-      <h1>Word of the Day</h1>
-      <p class="subtitle">Svenska &ndash; lära sig svenska</p>
+      <h1>🇸🇪 Dagens ord</h1>
+      <p class="subtitle">Word of the day</p>
     </header>
 
     <!-- ─── Word of the Day ─── -->
@@ -44,23 +46,19 @@
           and <strong class="highlight-sv" id="wotdPromptWord"></strong>.
         </p>
         <div class="textarea-wrapper">
-          <textarea
-            id="sentenceInput"
-            rows="3"
-            placeholder="Skriv din mening här..."
-            aria-label="Your Swedish sentence"
-          ></textarea>
-          <button class="btn btn-icon-only" id="copySentenceBtn"
-                  title="Copy only the sentence" aria-label="Copy only the sentence">
-            📋
+          <textarea id="sentenceInput" rows="3" placeholder="Skriv din mening här..."
+            aria-label="Your Swedish sentence"></textarea>
+          <button class="btn btn-icon-only" id="checkBtn" title="Check with LLM" aria-label="Check with LLM">
+            🔍
           </button>
         </div>
         <div class="button-row">
-          <button class="btn btn-secondary" id="checkBtn">
-            🔍 Check with LLM
+          <button class="btn btn-secondary" id="copySentenceBtn">
+            📋 Copy
           </button>
         </div>
         <div class="toast" id="toast" role="status" aria-live="polite"></div>
+        <div class="translation-popup" id="translationPopup"></div>
       </div>
     </details>
   </div>
@@ -76,4 +74,5 @@
     }
   </script>
 </body>
+
 </html>

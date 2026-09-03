@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Word of the Day – Svenska</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#1b74e4" />
+  <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>Word of the Day</h1>
+      <p class="subtitle">Svenska &ndash; lära sig svenska</p>
+    </header>
+
+    <!-- ─── Word of the Day ─── -->
+    <section class="wotd-section" aria-label="Word of the day">
+      <div class="wotd-display" id="wotdDisplay">
+        <span class="wotd-sv" id="wotdSv"></span>
+        <span class="wotd-fi" id="wotdFi"></span>
+      </div>
+      <button class="btn btn-primary" id="newWordBtn">
+        <span class="btn-icon" id="btnIcon">⟳</span>
+        <span class="btn-label">New word</span>
+      </button>
+      <p class="error-message" id="errorMsg"></p>
+    </section>
+
+    <!-- ─── Sentence Practice ─── -->
+    <details class="sentence-section" id="sentenceSection">
+      <summary class="sentence-summary">
+        <span class="summary-text">Sentence Practice</span>
+        <span class="summary-chevron">▾</span>
+      </summary>
+      <div class="sentence-content">
+        <p class="prompt-word" id="promptWord">
+          Write a Swedish sentence using
+          <strong class="highlight-sv" id="svPromptWord"></strong>
+          and <strong class="highlight-sv" id="wotdPromptWord"></strong>.
+        </p>
+        <div class="textarea-wrapper">
+          <textarea
+            id="sentenceInput"
+            rows="3"
+            placeholder="Skriv din mening här..."
+            aria-label="Your Swedish sentence"
+          ></textarea>
+          <button class="btn btn-icon-only" id="copySentenceBtn"
+                  title="Copy only the sentence" aria-label="Copy only the sentence">
+            📋
+          </button>
+        </div>
+        <div class="button-row">
+          <button class="btn btn-secondary" id="checkBtn">
+            🔍 Check with LLM
+          </button>
+        </div>
+        <div class="toast" id="toast" role="status" aria-live="polite"></div>
+      </div>
+    </details>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch((err) => {
+          console.warn('Service worker registration failed:', err);
+        });
+      });
+    }
+  </script>
+</body>
+</html>

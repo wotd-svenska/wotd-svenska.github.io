@@ -1,0 +1,26 @@
+{
+  "name": "Word of the Day – Svenska",
+  "short_name": "WOTD Svenska",
+  "description": "Learn Swedish daily — Word of the Day with translation and sentence practice",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f7f8fa",
+  "theme_color": "#1b74e4",
+  "categories": ["education", "language"],
+  "lang": "sv",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

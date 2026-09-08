@@ -161,29 +161,29 @@ async function fetchNewWord() {
   errorMsg.textContent = '';
   sentenceInput.value = '';
 
-  // pick new Finnish word
-  const fi = pickRandom(finnishWords);
-  currentFinnishWord = fi;
+  // pick new Swedish word (from 50k common words list) as Word of the Day
+  const sv = pickRandom(swedishWords);
+  currentSwedishTranslation = sv;
 
-  // show the finnish word immediately
-  wotdFiEl.textContent = fi;
-  wotdSvEl.textContent = '…';
+  // show the Swedish word immediately
+  wotdSvEl.textContent = sv;
+  wotdFiEl.textContent = '…';
 
-  // translate
-  const sv = await translateFiToSv(fi);
+  // translate SV → FI
+  const fi = await translateSvToFi(sv);
 
-  if (sv) {
-    currentSwedishTranslation = sv;
+  if (fi) {
+    currentFinnishWord = fi;
     updateWotdDisplay(fi, sv);
   } else {
-    // fallback: show finnish word only with a note
-    currentSwedishTranslation = fi;
-    updateWotdDisplay(fi, fi);
-    errorMsg.textContent = 'Translation unavailable — showing Finnish word.';
+    // fallback: show Swedish word only with a note
+    currentFinnishWord = sv;
+    updateWotdDisplay(sv, sv);
+    errorMsg.textContent = 'Translation unavailable — showing Swedish word.';
   }
 
-  // pick new Swedish practice word
-  currentSvPromptWord = pickRandom(swedishWords);
+  // pick new Finnish practice word
+  currentSvPromptWord = pickRandom(finnishWords);
   updateSentencePrompt(currentSvPromptWord, currentSwedishTranslation);
 
   // re-enable button

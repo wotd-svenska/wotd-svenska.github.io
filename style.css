@@ -1,3 +1,39 @@
+/* ─── Theme (dark default) ─── */
+:root {
+  /* Backgrounds */
+  --bg-page: #121212;
+  --bg-card: #1e1e1e;
+  --bg-btn-primary: #1b74e4;
+  --bg-btn-primary-hover: #1665c1;
+  --bg-btn-primary-disabled: #a0c4f1;
+  --bg-btn-secondary: #3a3b3c;
+  --bg-btn-secondary-hover: #4a4b4c;
+  --bg-icon-only: #3a3b3c;
+  --bg-icon-only-hover: #4a4b4c;
+  --bg-popup: #1c1e21;
+
+  /* Text */
+  --text-primary: #e4e6eb;
+  --text-secondary: #b0b3b8;
+  --text-tertiary: #8a8d91;
+  --text-btn-primary: #fff;
+  --text-btn-secondary: #e4e6eb;
+  --text-error: #f02849;
+  --text-success: #42c465;
+  --text-link: #1b74e4;
+
+  /* Borders */
+  --border-input: #3a3b3c;
+  --border-input-focus: #1b74e4;
+
+  /* Shadows */
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-popup: 0 4px 14px rgba(0, 0, 0, 0.5);
+
+  /* Misc */
+  --chevron-color: #b0b3b8;
+}
+
 /* ─── Reset & Base ─── */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -13,8 +49,8 @@ html {
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
                "Helvetica Neue", Arial, sans-serif;
-  background: #f7f8fa;
-  color: #1c1e21;
+  background: var(--bg-page);
+  color: var(--text-primary);
   line-height: 1.5;
   min-height: 100vh;
   min-height: 100dvh;
@@ -42,21 +78,21 @@ body {
 .header h1 {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #1c1e21;
+  color: var(--text-primary);
 }
 
 .header .subtitle {
   font-size: 0.875rem;
-  color: #65676b;
+  color: var(--text-secondary);
   margin-top: 2px;
 }
 
 /* ─── Word of the Day Section ─── */
 .wotd-section {
-  background: #fff;
+  background: var(--bg-card);
   border-radius: 16px;
   padding: 32px 24px 24px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-card);
   text-align: center;
 }
 
@@ -73,13 +109,13 @@ body {
 .wotd-sv {
   font-size: 2rem;
   font-weight: 700;
-  color: #1c1e21;
+  color: var(--text-primary);
   letter-spacing: 0.01em;
 }
 
 .wotd-fi {
   font-size: 1.125rem;
-  color: #8a8d91;
+  color: var(--text-tertiary);
   font-weight: 400;
   font-style: italic;
 }
@@ -115,27 +151,27 @@ body {
 }
 
 .btn-primary {
-  background: #1b74e4;
-  color: #fff;
+  background: var(--bg-btn-primary);
+  color: var(--text-btn-primary);
   width: 100%;
 }
 
 .btn-primary:hover {
-  background: #1665c1;
+  background: var(--bg-btn-primary-hover);
 }
 
 .btn-primary:disabled {
-  background: #a0c4f1;
+  background: var(--bg-btn-primary-disabled);
   cursor: not-allowed;
 }
 
 .btn-secondary {
-  background: #e4e6eb;
-  color: #1c1e21;
+  background: var(--bg-btn-secondary);
+  color: var(--text-btn-secondary);
 }
 
 .btn-secondary:hover {
-  background: #d8dadf;
+  background: var(--bg-btn-secondary-hover);
 }
 
 /* ─── Button icon (spinner) ─── */
@@ -166,9 +202,9 @@ body {
 /* ─── Sentence Practice (collapsible) ─── */
 .sentence-section {
   margin-top: 16px;
-  background: #fff;
+  background: var(--bg-card);
   border-radius: 16px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-card);
   overflow: hidden;
 }
 
@@ -183,6 +219,8 @@ body {
   list-style: none;
   -webkit-tap-highlight-color: transparent;
   user-select: none;
+  background: var(--bg-card);
+  color: var(--text-primary);
 }
 
 .sentence-summary::-webkit-details-marker {
@@ -191,7 +229,7 @@ body {
 
 .summary-chevron {
   font-size: 0.875rem;
-  color: #65676b;
+  color: var(--chevron-color);
   transition: transform 0.2s;
 }
 
@@ -206,12 +244,12 @@ body {
 /* ─── Prompt word ─── */
 .prompt-word {
   font-size: 0.9375rem;
-  color: #65676b;
+  color: var(--text-secondary);
   margin-bottom: 12px;
 }
 
 .highlight-sv {
-  color: #1b74e4;
+  color: var(--text-link);
   font-weight: 700;
 }
 
@@ -226,16 +264,22 @@ body {
   font-family: inherit;
   font-size: 1rem;
   padding: 12px 48px 12px 16px;
-  border: 2px solid #ccced0;
+  border: 2px solid var(--border-input);
   border-radius: 12px;
   resize: vertical;
   outline: none;
   transition: border-color 0.15s;
   line-height: 1.4;
+  background: var(--bg-card);
+  color: var(--text-primary);
+}
+
+.textarea-wrapper textarea::placeholder {
+  color: var(--text-tertiary);
 }
 
 .textarea-wrapper textarea:focus {
-  border-color: #1b74e4;
+  border-color: var(--border-input-focus);
 }
 
 /* ─── Copy-sentence button ─── */
@@ -243,7 +287,7 @@ body {
   position: absolute;
   top: 8px;
   right: 8px;
-  background: #e4e6eb;
+  background: var(--bg-icon-only);
   border: none;
   border-radius: 8px;
   width: 36px;
@@ -258,12 +302,12 @@ body {
 }
 
 .btn-icon-only:hover {
-  background: #d8dadf;
+  background: var(--bg-icon-only-hover);
 }
 
 .btn-icon-only.copied {
-  background: #31a24c;
-  color: #fff;
+  background: var(--text-success);
+  color: var(--text-btn-primary);
 }
 
 .btn-icon-only.copied::after {
@@ -289,7 +333,7 @@ body {
 .toast {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #31a24c;
+  color: var(--text-success);
   text-align: center;
   min-height: 1.5em;
   margin-top: 8px;
@@ -311,13 +355,13 @@ body {
 .translation-popup {
   position: fixed;
   z-index: 1000;
-  background: #1c1e21;
-  color: #fff;
+  background: var(--bg-popup);
+  color: var(--text-btn-primary);
   font-size: 0.875rem;
   font-weight: 600;
   padding: 8px 14px;
   border-radius: 10px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--shadow-popup);
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.18s ease;
@@ -336,7 +380,7 @@ body {
   left: 50%;
   transform: translateX(-50%);
   border: 6px solid transparent;
-  border-top-color: #1c1e21;
+  border-top-color: var(--bg-popup);
 }
 
 /* ─── Responsive fine-tune ─── */
